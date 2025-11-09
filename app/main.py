@@ -14,10 +14,18 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info("Application starting up...")
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-    logger.info("Database tables created (if they didn't exist).")
+    # This code runs on startup
+    logger.info(f"Application starting up in {settings.APP_ENV} mode...")
+    
+    # Only create tables if we are NOT in "test" mode
+    if settings.APP_ENV != "test":
+        logger.info("Creating database tables...")
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+        logger.info("Database tables created (if they didn't exist).")
+    else:
+        logger.info("Running in 'test' mode, skipping table creation.")
+    
     yield
     logger.info("Application shutting down...")
     await engine.dispose()
