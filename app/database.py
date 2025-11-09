@@ -1,10 +1,15 @@
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from sqlalchemy.engine import make_url
 from sqlalchemy.orm import DeclarativeBase
 from .config import settings
 
 # Create the async engine
+url = make_url(settings.DATABASE_URL)
+if url.drivername == "postgresql":
+    raise ValueError("DATABASE_URL must use the async driver, e.g. postgresql+asyncpg://...")
+
 engine = create_async_engine(
-    settings.DATABASE_URL,
+    url.render_as_string(hide_password=False),
     echo=True,  # Log SQL queries (good for dev)
 )
 
