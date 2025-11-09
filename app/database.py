@@ -9,7 +9,7 @@ if url.drivername == "postgresql":
     raise ValueError("DATABASE_URL must use the async driver, e.g. postgresql+asyncpg://...")
 
 engine = create_async_engine(
-    url.render_as_string(hide_password=False),
+    url.render_as_string(hide_password=True),
     echo=True,  # Log SQL queries (good for dev)
 )
 
