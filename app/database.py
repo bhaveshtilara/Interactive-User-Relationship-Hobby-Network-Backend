@@ -10,7 +10,7 @@ if url.drivername == "postgresql":
 
 engine = create_async_engine(
     url.render_as_string(hide_password=False),
-    echo=True,  # Log SQL queries (good for dev)
+    echo=False,  # Log SQL queries (good for dev)
 )
 
 # Create a session factory
