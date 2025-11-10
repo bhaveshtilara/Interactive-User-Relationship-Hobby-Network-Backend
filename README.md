@@ -1,87 +1,102 @@
-🚀 Interactive User Network - Frontend (React)
+# Interactive User Network Backend (FastAPI)
 
-This is the React + TypeScript frontend for the Cybernauts Development Assignment. It consumes a FastAPI backend to provide a rich, interactive visualization of a user-hobby network.
+This repository contains the backend service for the Interactive User Relationship and Hobby Network application. The service is implemented using **FastAPI** and exposes a structured API for managing users, their friendships, and associated hobby-based scoring.
 
-🌎 Live Demo
+## 1. Overview
 
-Live Application (Vercel): [Link to your deployed Vercel app]
+The backend provides:
 
-🌟 Features
+* CRUD operations for user management
+* Bi-directional friendship linking and unlinking
+* On-demand popularity score calculation based on social and hobby relationships
+* A combined `/api/graph` endpoint supplying graph-ready data for visualization in the frontend
+* Auto-generated OpenAPI documentation for ease of testing and integration
 
-Interactive Graph: Visualizes all users and friendships using React Flow.
+## 2. Live Deployment
 
-Drag-and-Drop Linking: Create new friendships simply by dragging a connection from one user node to another.
+* **API Base URL:** [https://interactive-user-relationship-hobby-u72g.onrender.com](https://interactive-user-relationship-hobby-u72g.onrender.com)
+* **API Documentation:** [https://interactive-user-relationship-hobby-u72g.onrender.com/docs](https://interactive-user-relationship-hobby-u72g.onrender.com/docs)
 
-Drag-and-Drop Hobbies: Add hobbies to users by dragging from the sidebar and dropping them onto any user node.
+## 3. Core Features
 
-Dynamic Custom Nodes: Nodes automatically change their appearance based on their popularityScore:
+* **User and Relationship Management:** Create, retrieve, update, and delete user profiles and connections.
+* **Popularity Scoring:** Each user receives a computed score derived from the count of direct friendships and shared hobby connections.
+* **Data Consistency Controls:** The system prevents deletion operations that could compromise relational integrity.
+* **Graph Aggregation Endpoint:** The `/api/graph` endpoint provides a unified structure of nodes and edges for the frontend.
 
-LowScoreNode (Score <= 5)
+## 4. Technology Stack
 
-HighScoreNode (Score > 5)
+| Component  | Technology             |
+| ---------- | ---------------------- |
+| Framework  | FastAPI                |
+| Database   | PostgreSQL (Async)     |
+| ORM        | SQLAlchemy 2.0 (Async) |
+| Validation | Pydantic               |
+| Testing    | Pytest, HTTPX          |
 
-VeryHighScoreNode (Score > 10)
+## 5. API Endpoints (Summary)
 
-Live Score Updates: All scores and node appearances update in real-time after any change (e.g., adding a friend or a hobby).
+| Method | Endpoint                 | Description                               |
+| ------ | ------------------------ | ----------------------------------------- |
+| GET    | `/api/users`             | Retrieve all users                        |
+| POST   | `/api/users`             | Create a new user                         |
+| GET    | `/api/users/{id}`        | Retrieve a specific user                  |
+| PUT    | `/api/users/{id}`        | Update user details                       |
+| DELETE | `/api/users/{id}`        | Delete a user (with integrity validation) |
+| POST   | `/api/users/{id}/link`   | Create a friendship                       |
+| DELETE | `/api/users/{id}/unlink` | Remove a friendship                       |
+| GET    | `/api/graph`             | Retrieve all graph data for visualization |
 
-Full User Management: A sidebar panel allows you to Create, Edit, and Delete users with form validation and confirmation.
+## 6. Local Setup Instructions
 
-Centralized State: Uses React Context and a useReducer hook to manage all graph data and loading states.
+1. **Clone the repository:**
 
-Notifications: Provides clear, non-intrusive feedback for all actions (create, link, delete, error) using react-hot-toast.
+```
+git clone <repository-url>
+cd backend
+```
 
-🛠️ Tech Stack
+2. **Create and activate a virtual environment:**
 
-Library: React 18 (with TypeScript)
+```
+python -m venv venv
+# Windows
+venv\Scripts\activate
+# Mac/Linux
+source venv/bin/activate
+```
 
-Build Tool: Vite
+3. **Install dependencies:**
 
-Graphing: React Flow
+```
+pip install -r requirements.txt
+```
 
-State Management: React Context + useReducer
+4. **Configure the environment:**
+   Create a `.env` file based on the `.env.example` template and set:
 
-API Client: Axios
+```
+DATABASE_URL=postgresql+asyncpg://USER:PASSWORD@HOST:PORT/DATABASE
+```
 
-Form Management: React Hook Form
+5. **Run the development server:**
 
-Notifications: React Hot Toast
+```
+uvicorn app.main:app --reload --port 8000
+```
 
-🚀 Setup and Installation (Local)
+## 7. Access During Development
 
-1. Prerequisite: Backend Server
+* Local API Base: [http://localhost:8000](http://localhost:8000)
+* Local API Documentation: [http://localhost:8000/docs](http://localhost:8000/docs)
 
-This frontend requires the backend service to be running. Please follow its README.md to set it up.
+## 8. Deployment Notes
 
-By default, the backend must be running at http://localhost:8000.
+Ensure that:
 
-2. Frontend Setup
+* The `DATABASE_URL` uses the async driver prefix `postgresql+asyncpg://`.
+* Remote database access is configured with SSL (if hosting provider enforces it).
 
-Clone the repository:
+---
 
-git clone [Your-Frontend-Repo-URL]
-cd cybernauts-frontend
-
-
-Install dependencies:
-
-npm install
-
-
-Create your .env file:
-
-Copy .env.example to a new file named .env.
-
-Ensure the VITE_API_BASE_URL matches your running backend.
-
-.env.example:
-
-The URL of our FastAPI backend
-VITE_API_BASE_URL=http://localhost:8000
-
-
-Run the app:
-
-npm run dev
-
-
-The frontend will be running at http://localhost:5173 (or the next available port).
+This documentation may be expanded based on project requirements, testing strategy, or additional integration details.
