@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     DATABASE_URL: str
     PORT: int = 8000
-    SECRET_KEY: str  # <--- REMOVED THE DEFAULT. It's now required.
+    SECRET_KEY: str 
     APP_ENV: str = "development"
 
     model_config = SettingsConfigDict(

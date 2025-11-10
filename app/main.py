@@ -8,16 +8,13 @@ import uvicorn
 from fastapi.middleware.cors import CORSMiddleware 
 from app.api import routes as api_routes
 
-# ... (logging setup, lifespan function - no changes there) ...
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # This code runs on startup
     logger.info(f"Application starting up in {settings.APP_ENV} mode...")
     
-    # Only create tables if we are NOT in "test" mode
     if settings.APP_ENV != "test":
         logger.info("Creating database tables...")
         async with engine.begin() as conn:
@@ -30,7 +27,6 @@ async def lifespan(app: FastAPI):
     logger.info("Application shutting down...")
     await engine.dispose()
 
-# Create the FastAPI app instance
 app = FastAPI(
     title="Cybernauts User Network",
     description="API for managing users and their hobby networks.",
@@ -38,19 +34,15 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# --- NEW: Add CORS Middleware ---
-# This allows our React app (running on a different port) : to make requests to this backend.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # Allow all origins (for development)
-    # In production, you'd list your frontend's domain: ["https://myapp.com"]
+    allow_origins=["*"], 
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE"], # Allow all methods
-    allow_headers=["*"], # Allow all headers
+    allow_methods=["GET", "POST", "PUT", "DELETE"], 
+    allow_headers=["*"], 
 )
 
-# --- NEW: Include our API routes ---
-app.include_router(api_routes.router) # All routes from routes.py
+app.include_router(api_routes.router)
 
 
 @app.get("/")

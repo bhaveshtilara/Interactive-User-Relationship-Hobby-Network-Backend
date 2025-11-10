@@ -1,6 +1,6 @@
-﻿🚀 Interactive User Network - Backend (FastAPI)
+��﻿🚀 Interactive User Network - Backend (FastAPI)
 
-This is the backend service for the Cybernauts Development Assignment. It is a Python (FastAPI) application that provides a full CRUD API for managing users, their friendships, and their hobbies. It calculates user "popularity scores" in real-time and is designed to be consumed by the React frontend.
+This is the backend service for the Cybernauts Development Assignment. It is a Python (FastAPIapplication that provides a full CRUD API for managing users, their friendships, and their hobbies. It calculates user "popularity scores" in real-time and is designed to be consumed by the React frontend.
 
 🌎 Live Endpoints
 
@@ -22,7 +22,7 @@ Enforces mutual, non-circular friendships (A-B is stored as the same relationshi
 
 Optimized Graph Endpoint: A single GET /api/graph endpoint that serves all data required by the frontend, including pre-calculating node types (LowScoreNode, HighScoreNode, VeryHighScoreNode).
 
-Automated API Docs: Interactive OpenAPI (Swagger) documentation is automatically generated at the /docs endpoint.
+Automated API Docs: Interactive OpenAPI (Swaggerdocumentation is automatically generated at the /docs endpoint.
 
 Unit Tested: Includes Pytest unit tests for core business logic (scoring, link rules, deletion rules).
 
@@ -85,7 +85,7 @@ Log in to PostgreSQL (e.g., psql).
 
 Create the database: CREATE DATABASE cybernauts_db;
 
-(Optional) Create a test database: CREATE DATABASE cybernauts_db_test;
+(OptionalCreate a test database: CREATE DATABASE cybernauts_db_test;
 
 Create your .env file:
 
