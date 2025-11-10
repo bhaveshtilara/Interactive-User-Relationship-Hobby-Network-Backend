@@ -1,113 +1,87 @@
-��﻿🚀 Interactive User Network - Backend (FastAPI)
+🚀 Interactive User Network - Frontend (React)
 
-This is the backend service for the Cybernauts Development Assignment. It is a Python (FastAPIapplication that provides a full CRUD API for managing users, their friendships, and their hobbies. It calculates user "popularity scores" in real-time and is designed to be consumed by the React frontend.
+This is the React + TypeScript frontend for the Cybernauts Development Assignment. It consumes a FastAPI backend to provide a rich, interactive visualization of a user-hobby network.
 
-🌎 Live Endpoints
+🌎 Live Demo
 
-Live Backend URL: [Link to your deployed Render API]
-
-API Documentation (Swagger): [Link to your deployed Render API]/docs
+Live Application (Vercel): [Link to your deployed Vercel app]
 
 🌟 Features
 
-Full User & Friendship API: Complete endpoints for creating, reading, updating, and deleting users and their relationships.
+Interactive Graph: Visualizes all users and friendships using React Flow.
 
-Dynamic Popularity Score: Automatically calculates a user's score on-the-fly based on the formula: (friends + (shared_hobbies * 0.5)).
+Drag-and-Drop Linking: Create new friendships simply by dragging a connection from one user node to another.
 
-Data Integrity:
+Drag-and-Drop Hobbies: Add hobbies to users by dragging from the sidebar and dropping them onto any user node.
 
-Prevents users from being deleted while still linked to friends (returns a 409 Conflict).
+Dynamic Custom Nodes: Nodes automatically change their appearance based on their popularityScore:
 
-Enforces mutual, non-circular friendships (A-B is stored as the same relationship as B-A).
+LowScoreNode (Score <= 5)
 
-Optimized Graph Endpoint: A single GET /api/graph endpoint that serves all data required by the frontend, including pre-calculating node types (LowScoreNode, HighScoreNode, VeryHighScoreNode).
+HighScoreNode (Score > 5)
 
-Automated API Docs: Interactive OpenAPI (Swaggerdocumentation is automatically generated at the /docs endpoint.
+VeryHighScoreNode (Score > 10)
 
-Unit Tested: Includes Pytest unit tests for core business logic (scoring, link rules, deletion rules).
+Live Score Updates: All scores and node appearances update in real-time after any change (e.g., adding a friend or a hobby).
+
+Full User Management: A sidebar panel allows you to Create, Edit, and Delete users with form validation and confirmation.
+
+Centralized State: Uses React Context and a useReducer hook to manage all graph data and loading states.
+
+Notifications: Provides clear, non-intrusive feedback for all actions (create, link, delete, error) using react-hot-toast.
 
 🛠️ Tech Stack
 
-Framework: FastAPI
+Library: React 18 (with TypeScript)
 
-Database: PostgreSQL (async with asyncpg)
+Build Tool: Vite
 
-ORM: SQLAlchemy 2.0 (Async)
+Graphing: React Flow
 
-Validation: Pydantic
+State Management: React Context + useReducer
 
-Testing: Pytest, HTTPX
+API Client: Axios
 
-📖 API Endpoints
+Form Management: React Hook Form
 
-User
-
-GET    /api/users: Fetch all users.
-
-POST   /api/users: Create a new user.
-
-GET    /api/users/:id: Fetch a single user.
-
-PUT    /api/users/:id: Update a user.
-
-DELETE /api/users/:id: Delete a user.
-
-Friendship & Graph
-
-POST   /api/users/:id/link: Create a friendship.
-
-DELETE /api/users/:id/unlink: Remove a friendship.
-
-GET    /api/graph: Return all graph data (nodes + edges) for the frontend.
+Notifications: React Hot Toast
 
 🚀 Setup and Installation (Local)
 
+1. Prerequisite: Backend Server
+
+This frontend requires the backend service to be running. Please follow its README.md to set it up.
+
+By default, the backend must be running at http://localhost:8000.
+
+2. Frontend Setup
+
 Clone the repository:
 
-git clone [Your-Backend-Repo-URL]
-cd cybernauts-backend
-
-
-Create and activate a virtual environment:
-
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+git clone [Your-Frontend-Repo-URL]
+cd cybernauts-frontend
 
 
 Install dependencies:
 
-pip install -r requirements.txt
+npm install
 
-
-Set up your PostgreSQL database:
-
-Log in to PostgreSQL (e.g., psql).
-
-Create the database: CREATE DATABASE cybernauts_db;
-
-(OptionalCreate a test database: CREATE DATABASE cybernauts_db_test;
 
 Create your .env file:
 
 Copy .env.example to a new file named .env.
 
-Update the DATABASE_URL with your actual username, password, and database name.
+Ensure the VITE_API_BASE_URL matches your running backend.
 
 .env.example:
 
-PostgreSQL Database URL
-Format: postgresql+asyncpg://USER:PASSWORD@HOST:PORT/DB_NAME
-DATABASE_URL=postgresql+asyncpg://postgres:password@localhost:5432/cybernauts_db
+The URL of our FastAPI backend
+VITE_API_BASE_URL=http://localhost:8000
 
 
-Run the server:
+Run the app:
 
-The application will automatically create the tables on startup.
-
-uvicorn app.main:app --reload --port 8000
+npm run dev
 
 
-The backend is now running at http://localhost:8000.
-
-
-API docs are at http://localhost:8000/docs.
+The frontend will be running at http://localhost:5173 (or the next available port).
